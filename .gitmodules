@@ -1,0 +1,3 @@
+[submodule "libs/athens"]
+	path = libs/athens
+	url = git+ssh://eincs@git.eincs.net/repos/is/athens
