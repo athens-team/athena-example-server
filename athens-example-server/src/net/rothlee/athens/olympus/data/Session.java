@@ -23,34 +23,28 @@ import org.json.JSONObject;
 /**
  * @author roth2520@gmail.com
  */
-public class User implements JConvertable {
+public class Session implements JConvertable {
 
-	public static User createById(Integer id) {
-		User result = new User();
-		result.setId(id);
+	public static Session create(String uuid) {
+		Session result = new Session();
+		result.setUuid(uuid);
 		return result;
 	}
 	
-	public static User createByEmail(String email) {
-		User result = new User();
-		result.setEmailAddr(email);
-		return result;
-	}
-	
-	public static User create(String email, String nickname) {
-		User result = new User();
-		result.setEmailAddr(email);
-		result.setNickname(nickname);
+	public static Session create(String uuid, String tag) {
+		Session result = new Session();
+		result.setUuid(uuid);
+		result.setTag(tag);
 		return result;
 	}
 	
 	private Integer id;
 	
-	private String profile;
+	private Integer userId;
 	
-	private String emailAddr;
+	private String uuid;
 	
-	private String nickname;
+	private String tag;
 	
 	private Long createdTime;
 
@@ -62,28 +56,28 @@ public class User implements JConvertable {
 		this.id = id;
 	}
 
-	public String getProfile() {
-		return profile;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setProfile(String profile) {
-		this.profile = profile;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public String getEmailAddr() {
-		return emailAddr;
+	public String getUuid() {
+		return uuid;
 	}
 
-	public void setEmailAddr(String emailAddr) {
-		this.emailAddr = emailAddr;
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getTag() {
+		return tag;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 	public Long getCreatedTime() {
@@ -97,10 +91,11 @@ public class User implements JConvertable {
 	public JSONObject toJSON() throws JSONException {
 		JSONObject result = new JSONObject();
 		result.put("id", getId());
-		result.put("profile", getProfile());
-		result.put("email_addr", getEmailAddr());
-		result.put("nickname", getNickname());
+		result.put("user_id", userId);
+		result.put("uuid", getUuid());
+		result.put("tag", getTag());
 		result.put("created_time", getCreatedTime());
 		return result;
 	}
+
 }

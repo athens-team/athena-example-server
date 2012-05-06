@@ -15,6 +15,19 @@
  */
 package net.rothlee.athens.olympus;
 
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
+
+import net.rothlee.athens.handler.service.simple.SimpleServices;
+import net.rothlee.athens.olympus.service.PostDeleteService;
+import net.rothlee.athens.olympus.service.PostWriteService;
+import net.rothlee.athens.olympus.service.ConfirmService;
+import net.rothlee.athens.olympus.service.AccessTokenService;
+import net.rothlee.athens.olympus.service.TimelineService;
+
+import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+
 /**
  * @author roth2520@gmail.com
  */
@@ -22,5 +35,23 @@ public class OlympusMain {
 
 	public static void main(String[] args) {
 		
+		SimpleServices services = new SimpleServices();
+		services.putByAnnotation(new TimelineService());
+		services.putByAnnotation(new PostWriteService());
+		services.putByAnnotation(new PostDeleteService());
+		services.putByAnnotation(new AccessTokenService());
+		services.putByAnnotation(new ConfirmService());
+		
+        // Configure the server.
+        ServerBootstrap bootstrap = new ServerBootstrap(
+                new NioServerSocketChannelFactory(
+                        Executors.newCachedThreadPool(), 
+                        Executors.newCachedThreadPool()));
+
+        // Set up the event pipeline factory.
+        bootstrap.setPipelineFactory(new OlympusPipelineFactory(services));
+
+        // Bind and start to accept incoming connections.
+        bootstrap.bind(new InetSocketAddress(8080));
 	}
 }

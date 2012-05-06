@@ -20,11 +20,9 @@ import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
-import net.rothlee.athens.olympus.HeaderNames;
 import net.rothlee.athens.olympus.TokenNames;
 import net.rothlee.athens.olympus.Tokens;
 import net.rothlee.athens.olympus.data.DataUtils;
-import net.rothlee.athens.olympus.data.Post;
 import net.rothlee.athens.olympus.data.Session;
 import net.rothlee.athens.olympus.data.User;
 import net.rothlee.athens.olympus.db.OlympusMapper;
@@ -39,62 +37,61 @@ import org.jboss.netty.util.CharsetUtil;
 /**
  * @author roth2520@gmail.com
  */
-@Bind(path = "/write", method = { "POST" })
-public class PostWriteService implements SimpleService {
+@Bind(path = "/confirm", method = { "GET" })
+public class ConfirmService implements SimpleService {
 
 	@Override
 	public void doServe(AthensRequest request, AthensResponse response)
 			throws Exception {
-		final String content = request.getParams().getParam("content",
+
+		final String tokenString = request.getParams().getParam("token",
 				String.class);
-		final String accessTokenString = request.getHeaders().get(
-				HeaderNames.ACCESS_TOKEN);
 
 		final DBManager dbm = DBManager.getInstance();
 		final SqlSession session = dbm.openSession();
 		final JSONTokenFactory tokenFactory = new JSONTokenFactory();
-
 		try {
+			if (tokenString == null) {
+				String responseString = DataUtils
+						.toResponseStringError("invalid access");
+				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContents(ChannelBuffers.copiedBuffer(
+						responseString, CharsetUtil.UTF_8));
+				return;
+			}
+
+			JSONToken registrationToken = tokenFactory.fromBytes(tokenString
+					.getBytes());
+			if (!Tokens.verifyToken(registrationToken)) {
+				String responseString = DataUtils
+						.toResponseStringError("invalid token");
+				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContents(ChannelBuffers.copiedBuffer(
+						responseString, CharsetUtil.UTF_8));
+				return;
+			}
+
+			String email = registrationToken.getContent().getString(
+					TokenNames.EMAIL);
+			String nickname = registrationToken.getContent().getString(
+					TokenNames.NICKNAME);
+			String sessionUuid = registrationToken.getContent().getString(
+					TokenNames.SESSION_UUID);
+			String sessionTag = registrationToken.getContent().getString(
+					TokenNames.SESSION_TAG);
+
 			final OlympusMapper mapper = session.getMapper(OlympusMapper.class);
-			final JSONToken accessToken = tokenFactory
-					.fromBytes(accessTokenString.getBytes());
-
-			if(!Tokens.verifyToken(accessToken)) {
-				String responseString = DataUtils.toResponseStringError("permission denied. invalid token.");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
-				response.setContents(ChannelBuffers.copiedBuffer(responseString,
-						CharsetUtil.UTF_8));
-				return;
-			}
-			
-			String email = accessToken.getContent().getString(TokenNames.EMAIL);
-			String sessionUuid = accessToken.getContent().getString(TokenNames.SESSION_UUID);
-			
 			User user = mapper.getUserByEmail(User.createByEmail(email));
-			if(user == null) {
-				String responseString = DataUtils.toResponseStringError("permission denied. no such user.");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
-				response.setContents(ChannelBuffers.copiedBuffer(responseString,
-						CharsetUtil.UTF_8));
-				return;
+			if(user==null) {
+				mapper.insertUser(User.create(email, nickname));
 			}
-			Session userSession = mapper.getSessionByUUID(Session.create(sessionUuid));
-			if(userSession == null) {
-				String responseString = DataUtils.toResponseStringError("permission denied. no such session.");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
-				response.setContents(ChannelBuffers.copiedBuffer(responseString,
-						CharsetUtil.UTF_8));
-				return;
-			}
+			mapper.insertSession(Session.create(sessionUuid, sessionTag));
 			
-			final int result = mapper.insertPost(Post.create(0, content));
-			session.commit();
-
-			final String responseString = DataUtils
-					.toResponseString(result > 0);
+			String responseString = DataUtils.toResponseString(true);
 			response.setContentType(HttpContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
+			return;
 
 		} finally {
 			session.close();

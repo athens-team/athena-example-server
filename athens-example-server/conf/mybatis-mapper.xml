@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--
 /*
  * Copyright 2012 Athens Team
@@ -15,15 +19,12 @@
  * under the License.
  */ 
  -->
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.rothlee.athens.olympus.db.OlympusMapper">
 
-<mapper namespace="net.rothlee.athens.db.OlympusMapper">
-
+	<!-- result maps -->
 	<resultMap id="userResult" type="User">
 		<id column="id" property="id" />
+		<result column="device_id" property="deviceId" />
 		<result column="email_addr" property="emailAddr" />
 		<result column="nickname" property="nickname" />
 		<result column="bio" property="bio" />
@@ -34,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id column="id" property="id" />
 		<result column="uuid" property="uuid" />
 		<result column="user_id" property="userId" />
-		<result column="model" property="model" />
+		<result column="tag" property="tag" />
 		<result column="created_time" property="createdTime" />
 	</resultMap>
 	
@@ -45,77 +46,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="created_time" property="createdTime" />
 	</resultMap>
 	
-	<resultMap id="commentResult" type="Comment">
-		<id column="id" property="id" />
-		<result column="user_id" property="userId" />
-		<result column="post_id" property="postId" />
-		<result column="content" property="content" />
-		<result column="created_time" property="createdTime" />
-	</resultMap>
+	<!-- user operations -->
+	<insert id="insertUser"  parameterType="User">
+        INSERT INTO omp_user ( device_id, profile, email_addr, nickname )
+        values ( #{deviceId}, #{profile}, #{emailAddr}, #{nickname} )
+    </insert>
+    
+    <delete id="deleteUser"  parameterType="User">
+        DELETE FROM omp_user
+        WHERE id = #{id}
+    </delete>
+    
+    <update id="updateUser"  parameterType="User">
+        UPDATE omp_user
+		SET device_id = #{deviceId}, profile = #{profile}, email_addr = #{emailAddr}, nickname = #{nickname}
+        WHERE id = #{id}
+    </update> 
+    
+	<select id="getUser" parameterType="User" resultMap="userResult" timeout="10000">
+		SELECT id, profile, email_addr, nickname, created_time
+		FROM omp_user
+		WHERE id = #{id}
+	</select>
 	
-
-	<select id="getPage" parameterType="int" resultMap="pageResult" timeout="10000">
-		SELECT
-			page_pr,
-			page_type,
-			page_title,
-			profile_pic,
-			info_cnt,
-			people_cnt,
-			page_cnt,
-			latitude,
-			longitude
-		FROM
-			onpage_page A
-			LEFT OUTER JOIN onpage_geo_info B
-			ON B.target_type='P' AND A.page_pr = B.target_pr
-		WHERE A.page_pr = #{pagePr}
-		  AND A.del_yn = 'N'
+	<select id="getUserByEmail" parameterType="User" resultMap="userResult" timeout="10000">
+		SELECT id, profile, email_addr, nickname, created_time
+		FROM omp_user
+		WHERE email_addr = #{emailAddr}
 	</select>
-
-	<select id="getPageInfo" parameterType="int" resultMap="pageInfoResult" timeout="10000">
-		SELECT
-			info_pr,
-			info_type,
-			info_title,
-			info_content,
-			status_pr,
-			page_pr
-		FROM
-			onpage_page_info
-		WHERE
-			info_pr = #{infoPr}
-		AND	del_yn = 'N'
+	
+	<!-- session operations -->
+	<insert id="insertSession"  parameterType="Session">
+        INSERT INTO omp_session ( user_id, uuid, tag )
+        values ( #{userId}, #{uuid}, #{tag} )
+    </insert>
+    
+	<select id="getSessionByUUID" parameterType="Session" resultMap="sessionResult" timeout="10000">
+		SELECT id, uuid, model, tag, created_time
+		FROM omp_session
+		WHERE uuid = #{uuid}
 	</select>
-
-	<select id="getUser" parameterType="int" resultMap="userResult" timeout="10000">
-		SELECT
-			user_pr,
-			user_id,
-			nickname,
-			profile_pic
-		FROM 	
-			onpage_user
-		WHERE
-			user_pr = #{UserPr}
-		AND del_yn = 'N'
+    
+    <!-- post operations -->
+	<insert id="insertPost"  parameterType="Post">
+        INSERT INTO omp_post ( user_id, content )
+        values ( #{userId}, #{content} )
+    </insert>
+    
+    <delete id="deletePost"  parameterType="Post">
+        DELETE FROM omp_post
+        WHERE id = #{id}
+    </delete>
+    
+    <select id="getPosts" parameterType="Range" resultMap="postResult" timeout="10000">
+		SELECT id, user_id, content, created_time
+		FROM omp_post
+		WHERE id &lt; #{afterId} AND id &gt; #{beforeId}
+		ORDER BY id DESC
+		LIMIT #{limit}
 	</select>
-		
-	<select id="getStatus" parameterType="int" resultMap="statusResult" timeout="10000">
-		SELECT
-			status_pr,
-			status_type,
-			status_status,
-			content,
-			comment_cnt,
-			like_cnt,
-			create_date,
-			create_user,
-			page_pr AS posted_page,
-			attach_info_type,
-			attach_info
-		FROM 	onpage_status
-		WHERE	status_pr = #{StatusPr}
-		AND		del_yn = 'N'
-	</select>
+	
 </mapper>

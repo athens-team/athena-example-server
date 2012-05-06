@@ -15,14 +15,34 @@
  */
 package net.rothlee.athens.olympus.data;
 
+import net.rothlee.athens.olympus.data.DataUtils.JConvertable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * @author roth2520@gmail.com
  */
-public class Post {
+public class Post implements JConvertable {
 
+	public static Post create(Integer postId) {
+		Post result = new Post();
+		result.setId(postId);
+		return result;
+	}
+	
+	public static Post create(Integer userId, String content) {
+		Post result = new Post();
+		result.setUserId(userId);
+		result.setContent(content);
+		return result;
+	}
+	
 	private Integer id;
 	
 	private Integer userId;
+	
+	private User user;
 	
 	private String content;
 	
@@ -44,6 +64,17 @@ public class Post {
 		this.userId = userId;
 	}
 
+	public User getUser() {
+		if(user==null) {
+			user = User.create("null", "null");
+		}
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -60,4 +91,14 @@ public class Post {
 		this.createdTime = createdTime;
 	}
 	
+	public JSONObject toJSON() throws JSONException {
+		JSONObject result = new JSONObject();
+		result.put("id", getId());
+		result.put("user_id", getUserId());
+		result.put("user", getUser().toJSON());
+		result.put("content", getContent());
+		result.put("created_time", getCreatedTime());
+		return result;
+	}
+
 }

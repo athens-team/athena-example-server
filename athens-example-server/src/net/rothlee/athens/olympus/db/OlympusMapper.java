@@ -17,9 +17,9 @@ package net.rothlee.athens.olympus.db;
 
 import java.util.List;
 
-import net.rothlee.athens.olympus.data.Comment;
-import net.rothlee.athens.olympus.data.Device;
 import net.rothlee.athens.olympus.data.Post;
+import net.rothlee.athens.olympus.data.Range;
+import net.rothlee.athens.olympus.data.Session;
 import net.rothlee.athens.olympus.data.User;
 
 /**
@@ -29,37 +29,25 @@ public interface OlympusMapper {
 
 	public int insertUser(User user);
 	
-	public int deleteUser(String userId);
+	public int deleteUser(User user);
 	
-	public int updateUser(String userId, User user);
+	public int updateUser(User user);
 	
-	public User getUser(String userId);
+	public User getUser(User user);
 	
-	public User getUserByEmail(String emailAddr);
+	public User getUserByEmail(User user);
+	
+	
+	public int insertSession(Session session);
+	
+	public Session getSessionByUUID(Session session);
 	
 	
 	public int insertPost(Post post);
 	
-	public int deletePost(String postId);
+	public int deletePost(Post post);
 	
-	public Post getPost(String postId);
-	
-	public List<Post> getPost(String afterId, int limit);
-	
-	
-	public int insertComment(Comment comment);
-	
-	public int deleteComment(String commentId);
-	
-	public Comment getComment(String commentId);
-	
-	public List<Comment> getComment(String postId, String afterId, int limit);
-	
-	
-	public int insertDevice(Device device);
-	
-	public int deleteDevice(String deviceId);
-	
-	public List<Device> getDeviceByUser(String userId);
+	public List<Post> getPosts(Range range);
+
 
 }

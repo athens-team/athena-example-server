@@ -24,10 +24,6 @@ import net.rothlee.athens.handler.service.simple.SimpleAuthHandler;
 import net.rothlee.athens.handler.service.simple.SimpleServiceDiscovery;
 import net.rothlee.athens.handler.service.simple.SimpleServiceInvoker;
 import net.rothlee.athens.handler.service.simple.SimpleServices;
-import net.rothlee.athens.test.simple.IndexService;
-import net.rothlee.athens.test.simple.MenuService;
-import net.rothlee.athens.test.simple.PrintCookieService;
-import net.rothlee.athens.test.simple.SetCookieService;
 
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
@@ -46,21 +42,17 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 			.availableProcessors() * 8;
 
 	private final ExecutorService executor;
-
-	public OlympusPipelineFactory() {
+	private final SimpleServices services;
+	
+	public OlympusPipelineFactory(SimpleServices services) {
 		this.executor = Executors
 				.newFixedThreadPool(DEFAULT_WORKER_THREAD_COUNT);
+		this.services = services;
 	}
 
 	@Override
 	public ChannelPipeline getPipeline() throws Exception {
 
-		SimpleServices services = new SimpleServices();
-		services.putByAnnotation(new MenuService());
-		services.putByAnnotation(new IndexService());
-		services.putByAnnotation(new PrintCookieService());
-		services.putByAnnotation(new SetCookieService());
-		
 		return Channels.pipeline(new HttpRequestDecoder(),
 				new HttpResponseEncoder(),
 				new HttpContentCompressor(),

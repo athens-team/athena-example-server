@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!--
 /*
  * Copyright 2012 Athens Team
@@ -15,8 +17,6 @@
  * under the License.
  */ 
  -->
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
 	<settings>
@@ -26,10 +26,10 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="User" type="net.rothlee.athens.data.User" />
-		<typeAlias alias="Deivice" type="net.rothlee.athens.data.Device" />
-		<typeAlias alias="Comment" type="net.rothlee.athens.data.Comment" />
-		<typeAlias alias="Post" type="net.rothlee.athens.data.Post" />
+		<typeAlias alias="User" type="net.rothlee.athens.olympus.data.User" />
+		<typeAlias alias="Session" type="net.rothlee.athens.olympus.data.Session" />
+		<typeAlias alias="Post" type="net.rothlee.athens.olympus.data.Post" />
+		<typeAlias alias="Range" type="net.rothlee.athens.olympus.data.Range" />
 	</typeAliases>
 
 	<environments default="development">
@@ -39,7 +39,7 @@
 				<property name="driver" value="org.gjt.mm.mysql.Driver" />
 				<property name="url" value="jdbc:mysql://localhost:3306/olympus" />
 				<property name="username" value="olympus" />
-				<property name="password" value="dwjeQH4QRNYRRDqf" />
+				<property name="password" value="olympus" />
 			</dataSource>
 		</environment>
 	</environments>
