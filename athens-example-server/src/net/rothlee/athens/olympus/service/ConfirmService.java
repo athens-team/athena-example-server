@@ -84,8 +84,11 @@ public class ConfirmService implements SimpleService {
 			User user = mapper.getUserByEmail(User.createByEmail(email));
 			if(user==null) {
 				mapper.insertUser(User.create(email, nickname));
+				user = mapper.getUserByEmail(User.createByEmail(email));
 			}
-			mapper.insertSession(Session.create(sessionUuid, sessionTag));
+			mapper.insertSession(Session.create(user.getId(), sessionUuid,
+					sessionTag));
+			session.commit();
 			
 			String responseString = DataUtils.toResponseString(true);
 			response.setContentType(HttpContentType.TEXT_PLAIN);

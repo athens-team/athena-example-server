@@ -65,9 +65,6 @@ public class Post implements JConvertable {
 	}
 
 	public User getUser() {
-		if(user==null) {
-			user = User.create("null", "null");
-		}
 		return user;
 	}
 

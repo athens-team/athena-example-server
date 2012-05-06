@@ -36,10 +36,12 @@ public class DataUtils {
 
 	public static String toResponseString(
 			List<? extends JConvertable> convertableList) throws JSONException {
-		JSONArray result = new JSONArray();
+		JSONObject result = new JSONObject();
+		JSONArray list = new JSONArray();
 		for (JConvertable convertable : convertableList) {
-			result.put(convertable.toJSON());
+			list.put(convertable.toJSON());
 		}
+		result.put("result", list);
 		return result.toString();
 	}
 

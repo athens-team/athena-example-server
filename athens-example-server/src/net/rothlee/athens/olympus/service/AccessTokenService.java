@@ -93,7 +93,7 @@ public class AccessTokenService implements SimpleService {
 		sb.append("<p>Click following link, and go back to the app.");
 		sb.append("Then you can use olympus right a way!</p><br/>");
 		sb.append(String
-				.format("<a href=\"http://www.naver.com?token=%s\">Click This Link!</a><br/><br/>",
+				.format("<a href=\"http://172.30.1.1:8080/confirm?token=%s\">Click This Link!</a><br/><br/>",
 						URLEncoder.encode(token, CharsetUtil.UTF_8.toString())));
 		sb.append("Thank You!");
 		return sb.toString();

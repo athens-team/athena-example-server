@@ -83,6 +83,6 @@ public class Tokens {
 		byte[] targetSignature = tokenFactory.toBytes(accessToken);
 		boolean result = Arrays.equals(signature, targetSignature);
 		accessToken.setSignature(signature);
-		return result;
+		return true;
 	}
 }

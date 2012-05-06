@@ -22,11 +22,12 @@ CREATE TABLE omp_user (
 	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS omp_device;
+DROP TABLE IF EXISTS omp_session;
 CREATE TABLE omp_session (
 	id integer auto_increment primary key,
 	user_id integer not null,
 	uuid varchar(255) not null,
+	tag varchar(255) not null,
 	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
 );
 

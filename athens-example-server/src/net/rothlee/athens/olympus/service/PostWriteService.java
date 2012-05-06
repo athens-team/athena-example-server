@@ -59,35 +59,40 @@ public class PostWriteService implements SimpleService {
 			final JSONToken accessToken = tokenFactory
 					.fromBytes(accessTokenString.getBytes());
 
-			if(!Tokens.verifyToken(accessToken)) {
-				String responseString = DataUtils.toResponseStringError("permission denied. invalid token.");
+			if (!Tokens.verifyToken(accessToken)) {
+				String responseString = DataUtils
+						.toResponseStringError("permission denied. invalid token.");
 				response.setContentType(HttpContentType.TEXT_PLAIN);
-				response.setContents(ChannelBuffers.copiedBuffer(responseString,
-						CharsetUtil.UTF_8));
+				response.setContents(ChannelBuffers.copiedBuffer(
+						responseString, CharsetUtil.UTF_8));
 				return;
 			}
-			
+
 			String email = accessToken.getContent().getString(TokenNames.EMAIL);
-			String sessionUuid = accessToken.getContent().getString(TokenNames.SESSION_UUID);
-			
+			String sessionUuid = accessToken.getContent().getString(
+					TokenNames.SESSION_UUID);
+
 			User user = mapper.getUserByEmail(User.createByEmail(email));
-			if(user == null) {
-				String responseString = DataUtils.toResponseStringError("permission denied. no such user.");
+			if (user == null) {
+				String responseString = DataUtils
+						.toResponseStringError("permission denied. no such user.");
 				response.setContentType(HttpContentType.TEXT_PLAIN);
-				response.setContents(ChannelBuffers.copiedBuffer(responseString,
-						CharsetUtil.UTF_8));
+				response.setContents(ChannelBuffers.copiedBuffer(
+						responseString, CharsetUtil.UTF_8));
 				return;
 			}
-			Session userSession = mapper.getSessionByUUID(Session.create(sessionUuid));
-			if(userSession == null) {
-				String responseString = DataUtils.toResponseStringError("permission denied. no such session.");
+			Session userSession = mapper.getSessionByUUID(Session
+					.create(sessionUuid));
+			if (userSession == null) {
+				String responseString = DataUtils
+						.toResponseStringError("permission denied. no such session.");
 				response.setContentType(HttpContentType.TEXT_PLAIN);
-				response.setContents(ChannelBuffers.copiedBuffer(responseString,
-						CharsetUtil.UTF_8));
+				response.setContents(ChannelBuffers.copiedBuffer(
+						responseString, CharsetUtil.UTF_8));
 				return;
 			}
-			
-			final int result = mapper.insertPost(Post.create(0, content));
+
+			final int result = mapper.insertPost(Post.create(user.getId(), content));
 			session.commit();
 
 			final String responseString = DataUtils

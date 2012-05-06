@@ -24,86 +24,97 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- result maps -->
 	<resultMap id="userResult" type="User">
 		<id column="id" property="id" />
-		<result column="device_id" property="deviceId" />
 		<result column="email_addr" property="emailAddr" />
 		<result column="nickname" property="nickname" />
 		<result column="bio" property="bio" />
-		<result column="created_time" property="createdTime" />
+		<result column="created_time" property="createdTime"
+			typeHandler="TimestampTypeHandler" />
 	</resultMap>
 
-	<resultMap id="deviceResult" type="Device">
+	<resultMap id="sessionResult" type="Session">
 		<id column="id" property="id" />
 		<result column="uuid" property="uuid" />
 		<result column="user_id" property="userId" />
 		<result column="tag" property="tag" />
-		<result column="created_time" property="createdTime" />
+		<result column="created_time" property="createdTime"
+			typeHandler="TimestampTypeHandler" />
 	</resultMap>
-	
+
 	<resultMap id="postResult" type="Post">
 		<id column="id" property="id" />
 		<result column="user_id" property="userId" />
 		<result column="content" property="content" />
-		<result column="created_time" property="createdTime" />
+		<result column="created_time" property="createdTime"
+			typeHandler="TimestampTypeHandler" />
 	</resultMap>
-	
+
 	<!-- user operations -->
-	<insert id="insertUser"  parameterType="User">
-        INSERT INTO omp_user ( device_id, profile, email_addr, nickname )
-        values ( #{deviceId}, #{profile}, #{emailAddr}, #{nickname} )
-    </insert>
-    
-    <delete id="deleteUser"  parameterType="User">
-        DELETE FROM omp_user
-        WHERE id = #{id}
-    </delete>
-    
-    <update id="updateUser"  parameterType="User">
-        UPDATE omp_user
-		SET device_id = #{deviceId}, profile = #{profile}, email_addr = #{emailAddr}, nickname = #{nickname}
-        WHERE id = #{id}
-    </update> 
-    
-	<select id="getUser" parameterType="User" resultMap="userResult" timeout="10000">
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO omp_user ( profile, email_addr, nickname )
+		values ( #{profile}, #{emailAddr}, #{nickname} )
+	</insert>
+
+	<delete id="deleteUser" parameterType="User">
+		DELETE FROM omp_user
+		WHERE id = #{id}
+	</delete>
+
+	<update id="updateUser" parameterType="User">
+		UPDATE omp_user
+		SET device_id = #{deviceId}, profile = #{profile}, email_addr
+		= #{emailAddr}, nickname = #{nickname}
+		WHERE id = #{id}
+	</update>
+
+	<select id="getUser" parameterType="User" resultMap="userResult"
+		timeout="10000">
 		SELECT id, profile, email_addr, nickname, created_time
-		FROM omp_user
+		FROM
+		omp_user
 		WHERE id = #{id}
 	</select>
-	
-	<select id="getUserByEmail" parameterType="User" resultMap="userResult" timeout="10000">
+
+	<select id="getUserByEmail" parameterType="User" resultMap="userResult"
+		timeout="10000">
 		SELECT id, profile, email_addr, nickname, created_time
-		FROM omp_user
+		FROM
+		omp_user
 		WHERE email_addr = #{emailAddr}
 	</select>
-	
+
 	<!-- session operations -->
-	<insert id="insertSession"  parameterType="Session">
-        INSERT INTO omp_session ( user_id, uuid, tag )
-        values ( #{userId}, #{uuid}, #{tag} )
-    </insert>
-    
-	<select id="getSessionByUUID" parameterType="Session" resultMap="sessionResult" timeout="10000">
-		SELECT id, uuid, model, tag, created_time
+	<insert id="insertSession" parameterType="Session">
+		INSERT INTO omp_session ( user_id, uuid, tag )
+		values ( #{userId}, #{uuid}, #{tag} )
+	</insert>
+
+	<select id="getSessionByUUID" parameterType="Session" resultMap="sessionResult"
+		timeout="10000">
+		SELECT id, uuid, tag, created_time
 		FROM omp_session
-		WHERE uuid = #{uuid}
+		WHERE uuid =
+		#{uuid}
 	</select>
-    
-    <!-- post operations -->
-	<insert id="insertPost"  parameterType="Post">
-        INSERT INTO omp_post ( user_id, content )
-        values ( #{userId}, #{content} )
-    </insert>
-    
-    <delete id="deletePost"  parameterType="Post">
-        DELETE FROM omp_post
-        WHERE id = #{id}
-    </delete>
-    
-    <select id="getPosts" parameterType="Range" resultMap="postResult" timeout="10000">
+
+	<!-- post operations -->
+	<insert id="insertPost" parameterType="Post">
+		INSERT INTO omp_post ( user_id, content )
+		values ( #{userId}, #{content} )
+	</insert>
+
+	<delete id="deletePost" parameterType="Post">
+		DELETE FROM omp_post
+		WHERE id = #{id}
+	</delete>
+
+	<select id="getPosts" parameterType="Range" resultMap="postResult"
+		timeout="10000">
 		SELECT id, user_id, content, created_time
 		FROM omp_post
-		WHERE id &lt; #{afterId} AND id &gt; #{beforeId}
+		WHERE id
+		&lt; #{afterId} AND id &gt; #{beforeId}
 		ORDER BY id DESC
 		LIMIT #{limit}
 	</select>
-	
+
 </mapper>

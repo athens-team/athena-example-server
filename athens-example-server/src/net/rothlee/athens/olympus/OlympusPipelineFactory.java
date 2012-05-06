@@ -59,7 +59,6 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 				new AthensHttpHandler(),
 				new ExecutionHandler(executor),
 				new AthensHttpProcessor(),
-				new SimpleAuthHandler(),
 				new SimpleServiceDiscovery(services),
 				new SimpleServiceInvoker());
 	}

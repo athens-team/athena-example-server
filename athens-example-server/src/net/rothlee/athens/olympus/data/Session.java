@@ -31,8 +31,10 @@ public class Session implements JConvertable {
 		return result;
 	}
 	
-	public static Session create(String uuid, String tag) {
+	public static Session create(Integer userId, String uuid,
+			String tag) {
 		Session result = new Session();
+		result.setUserId(userId);
 		result.setUuid(uuid);
 		result.setTag(tag);
 		return result;
@@ -97,5 +99,6 @@ public class Session implements JConvertable {
 		result.put("created_time", getCreatedTime());
 		return result;
 	}
+
 
 }

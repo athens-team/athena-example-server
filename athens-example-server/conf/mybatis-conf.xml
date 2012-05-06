@@ -30,6 +30,7 @@
 		<typeAlias alias="Session" type="net.rothlee.athens.olympus.data.Session" />
 		<typeAlias alias="Post" type="net.rothlee.athens.olympus.data.Post" />
 		<typeAlias alias="Range" type="net.rothlee.athens.olympus.data.Range" />
+		<typeAlias alias="TimestampTypeHandler" type="net.rothlee.athens.olympus.db.TimestampTypeHandler"/>
 	</typeAliases>
 
 	<environments default="development">

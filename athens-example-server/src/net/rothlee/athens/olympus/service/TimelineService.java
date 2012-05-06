@@ -57,7 +57,8 @@ public class TimelineService implements SimpleService {
 			final OlympusMapper mapper = session.getMapper(OlympusMapper.class);
 			final List<Post> result = mapper.getPosts(range);
 			for(Post post : result) {
-				post.setUser(mapper.getUser(User.createById(post.getUserId())));
+				Integer userId = post.getUserId();
+				post.setUser(mapper.getUser(User.createById(userId)));
 			}
 			final String responseString = DataUtils.toResponseString(result);
 			response.setContentType(HttpContentType.TEXT_PLAIN);
