@@ -13,14 +13,51 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package net.rothlee.athens.olympus;
+package net.rothlee.athens.olympus.data;
 
 /**
  * @author roth2520@gmail.com
  */
-public class OlympusMain {
+public class Post {
 
-	public static void main(String[] args) {
-		
+	private Integer id;
+	
+	private Integer userId;
+	
+	private String content;
+	
+	private Long createdTime;
+
+	public Integer getId() {
+		return id;
 	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Long getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(Long createdTime) {
+		this.createdTime = createdTime;
+	}
+	
 }

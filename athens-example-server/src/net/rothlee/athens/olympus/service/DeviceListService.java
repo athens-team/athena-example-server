@@ -18,6 +18,6 @@ package net.rothlee.athens.olympus.service;
 /**
  * @author roth2520@gmail.com
  */
-public class PostWriteService {
+public class DeviceListService {
 
 }

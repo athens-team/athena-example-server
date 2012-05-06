@@ -1,0 +1,121 @@
+<!--
+/*
+ * Copyright 2012 Athens Team
+ *
+ * This file to you under the Apache License, version 2.0
+ * (the "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at:
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */ 
+ -->
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.rothlee.athens.db.OlympusMapper">
+
+	<resultMap id="userResult" type="User">
+		<id column="id" property="id" />
+		<result column="email_addr" property="emailAddr" />
+		<result column="nickname" property="nickname" />
+		<result column="bio" property="bio" />
+		<result column="created_time" property="createdTime" />
+	</resultMap>
+
+	<resultMap id="deviceResult" type="Device">
+		<id column="id" property="id" />
+		<result column="uuid" property="uuid" />
+		<result column="user_id" property="userId" />
+		<result column="model" property="model" />
+		<result column="created_time" property="createdTime" />
+	</resultMap>
+	
+	<resultMap id="postResult" type="Post">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="content" property="content" />
+		<result column="created_time" property="createdTime" />
+	</resultMap>
+	
+	<resultMap id="commentResult" type="Comment">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="post_id" property="postId" />
+		<result column="content" property="content" />
+		<result column="created_time" property="createdTime" />
+	</resultMap>
+	
+
+	<select id="getPage" parameterType="int" resultMap="pageResult" timeout="10000">
+		SELECT
+			page_pr,
+			page_type,
+			page_title,
+			profile_pic,
+			info_cnt,
+			people_cnt,
+			page_cnt,
+			latitude,
+			longitude
+		FROM
+			onpage_page A
+			LEFT OUTER JOIN onpage_geo_info B
+			ON B.target_type='P' AND A.page_pr = B.target_pr
+		WHERE A.page_pr = #{pagePr}
+		  AND A.del_yn = 'N'
+	</select>
+
+	<select id="getPageInfo" parameterType="int" resultMap="pageInfoResult" timeout="10000">
+		SELECT
+			info_pr,
+			info_type,
+			info_title,
+			info_content,
+			status_pr,
+			page_pr
+		FROM
+			onpage_page_info
+		WHERE
+			info_pr = #{infoPr}
+		AND	del_yn = 'N'
+	</select>
+
+	<select id="getUser" parameterType="int" resultMap="userResult" timeout="10000">
+		SELECT
+			user_pr,
+			user_id,
+			nickname,
+			profile_pic
+		FROM 	
+			onpage_user
+		WHERE
+			user_pr = #{UserPr}
+		AND del_yn = 'N'
+	</select>
+		
+	<select id="getStatus" parameterType="int" resultMap="statusResult" timeout="10000">
+		SELECT
+			status_pr,
+			status_type,
+			status_status,
+			content,
+			comment_cnt,
+			like_cnt,
+			create_date,
+			create_user,
+			page_pr AS posted_page,
+			attach_info_type,
+			attach_info
+		FROM 	onpage_status
+		WHERE	status_pr = #{StatusPr}
+		AND		del_yn = 'N'
+	</select>
+</mapper>
