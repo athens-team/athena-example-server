@@ -20,7 +20,7 @@ CREATE TABLE omp_user (
 	email_addr varchar(255) not null,
 	nickname varchar(255),
 	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS omp_session;
 CREATE TABLE omp_session (
@@ -29,7 +29,7 @@ CREATE TABLE omp_session (
 	uuid varchar(255) not null,
 	tag varchar(255) not null,
 	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS omp_post;
 CREATE TABLE omp_post (
@@ -37,4 +37,4 @@ CREATE TABLE omp_post (
 	user_id integer not null,
 	content TEXT,
 	created_time timestamp not null DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB;
