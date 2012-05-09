@@ -19,6 +19,7 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
 import net.rothlee.athens.handler.service.simple.SimpleServices;
+import net.rothlee.athens.olympus.service.HelloService;
 import net.rothlee.athens.olympus.service.PostDeleteService;
 import net.rothlee.athens.olympus.service.PostWriteService;
 import net.rothlee.athens.olympus.service.ConfirmService;
@@ -41,6 +42,7 @@ public class OlympusMain {
 		services.putByAnnotation(new PostDeleteService());
 		services.putByAnnotation(new AccessTokenService());
 		services.putByAnnotation(new ConfirmService());
+		services.putByAnnotation(new HelloService());
 		
         // Configure the server.
         ServerBootstrap bootstrap = new ServerBootstrap(

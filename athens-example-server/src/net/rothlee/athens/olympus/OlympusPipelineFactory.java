@@ -20,7 +20,6 @@ import java.util.concurrent.Executors;
 
 import net.rothlee.athens.handler.codec.http.AthensHttpHandler;
 import net.rothlee.athens.handler.codec.http.AthensHttpProcessor;
-import net.rothlee.athens.handler.service.simple.SimpleAuthHandler;
 import net.rothlee.athens.handler.service.simple.SimpleServiceDiscovery;
 import net.rothlee.athens.handler.service.simple.SimpleServiceInvoker;
 import net.rothlee.athens.handler.service.simple.SimpleServices;
@@ -39,7 +38,7 @@ import org.jboss.netty.handler.execution.ExecutionHandler;
 public class OlympusPipelineFactory implements ChannelPipelineFactory {
 
 	private final int DEFAULT_WORKER_THREAD_COUNT = Runtime.getRuntime()
-			.availableProcessors() * 8;
+			.availableProcessors() * 64;
 
 	private final ExecutorService executor;
 	private final SimpleServices services;
