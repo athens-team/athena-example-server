@@ -15,9 +15,9 @@
  */
 package net.rothlee.athens.olympus.service;
 
-import net.rothlee.athens.handler.codec.http.HttpContentType;
 import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
+import net.rothlee.athens.message.AthensContentType;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
 import net.rothlee.athens.olympus.TokenNames;
@@ -54,7 +54,7 @@ public class ConfirmService implements SimpleService {
 			if (tokenString == null) {
 				String responseString = DataUtils
 						.toResponseStringError("invalid access");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContentType(AthensContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -65,7 +65,7 @@ public class ConfirmService implements SimpleService {
 			if (!Tokens.verifyToken(registrationToken)) {
 				String responseString = DataUtils
 						.toResponseStringError("invalid token");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContentType(AthensContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -91,7 +91,7 @@ public class ConfirmService implements SimpleService {
 			session.commit();
 			
 			String responseString = DataUtils.toResponseString(true);
-			response.setContentType(HttpContentType.TEXT_PLAIN);
+			response.setContentType(AthensContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 			return;

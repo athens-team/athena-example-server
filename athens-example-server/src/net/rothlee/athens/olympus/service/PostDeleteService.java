@@ -19,9 +19,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.util.CharsetUtil;
 
-import net.rothlee.athens.handler.codec.http.HttpContentType;
 import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
+import net.rothlee.athens.message.AthensContentType;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
 import net.rothlee.athens.olympus.data.DataUtils;
@@ -50,7 +50,7 @@ public class PostDeleteService implements SimpleService {
 
 			final String responseString = DataUtils
 					.toResponseString(result > 0);
-			response.setContentType(HttpContentType.TEXT_PLAIN);
+			response.setContentType(AthensContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 

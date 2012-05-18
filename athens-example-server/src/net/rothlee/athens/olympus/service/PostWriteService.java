@@ -15,9 +15,9 @@
  */
 package net.rothlee.athens.olympus.service;
 
-import net.rothlee.athens.handler.codec.http.HttpContentType;
 import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
+import net.rothlee.athens.message.AthensContentType;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
 import net.rothlee.athens.olympus.HeaderNames;
@@ -62,7 +62,7 @@ public class PostWriteService implements SimpleService {
 			if (!Tokens.verifyToken(accessToken)) {
 				String responseString = DataUtils
 						.toResponseStringError("permission denied. invalid token.");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContentType(AthensContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -76,7 +76,7 @@ public class PostWriteService implements SimpleService {
 			if (user == null) {
 				String responseString = DataUtils
 						.toResponseStringError("permission denied. no such user.");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContentType(AthensContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -86,7 +86,7 @@ public class PostWriteService implements SimpleService {
 			if (userSession == null) {
 				String responseString = DataUtils
 						.toResponseStringError("permission denied. no such session.");
-				response.setContentType(HttpContentType.TEXT_PLAIN);
+				response.setContentType(AthensContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -97,7 +97,7 @@ public class PostWriteService implements SimpleService {
 
 			final String responseString = DataUtils
 					.toResponseString(result > 0);
-			response.setContentType(HttpContentType.TEXT_PLAIN);
+			response.setContentType(AthensContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 

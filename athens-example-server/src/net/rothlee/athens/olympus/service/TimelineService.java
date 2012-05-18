@@ -17,9 +17,9 @@ package net.rothlee.athens.olympus.service;
 
 import java.util.List;
 
-import net.rothlee.athens.handler.codec.http.HttpContentType;
 import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
+import net.rothlee.athens.message.AthensContentType;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
 import net.rothlee.athens.olympus.data.DataUtils;
@@ -61,7 +61,7 @@ public class TimelineService implements SimpleService {
 				post.setUser(mapper.getUser(User.createById(userId)));
 			}
 			final String responseString = DataUtils.toResponseString(result);
-			response.setContentType(HttpContentType.TEXT_PLAIN);
+			response.setContentType(AthensContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 

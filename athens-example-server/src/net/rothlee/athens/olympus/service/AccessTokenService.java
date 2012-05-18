@@ -19,9 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
 
-import net.rothlee.athens.handler.codec.http.HttpContentType;
 import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
+import net.rothlee.athens.message.AthensContentType;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
 import net.rothlee.athens.olympus.GmailMailSender;
@@ -75,7 +75,7 @@ public class AccessTokenService implements SimpleService {
 			String responseString = DataUtils.toResponseString(ChannelBuffers
 					.copiedBuffer(tokenFactory.toBytes(accessToken)).toString(
 							CharsetUtil.UTF_8));
-			response.setContentType(HttpContentType.TEXT_PLAIN);
+			response.setContentType(AthensContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 			return;

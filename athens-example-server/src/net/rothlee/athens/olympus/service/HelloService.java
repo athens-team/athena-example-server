@@ -15,9 +15,9 @@
  */
 package net.rothlee.athens.olympus.service;
 
-import net.rothlee.athens.handler.codec.http.HttpContentType;
 import net.rothlee.athens.handler.service.simple.Bind;
 import net.rothlee.athens.handler.service.simple.SimpleService;
+import net.rothlee.athens.message.AthensContentType;
 import net.rothlee.athens.message.AthensRequest;
 import net.rothlee.athens.message.AthensResponse;
 
@@ -34,7 +34,7 @@ public class HelloService implements SimpleService {
 	public void doServe(AthensRequest request, AthensResponse response)
 			throws Exception {
 
-		response.setContentType(HttpContentType.TEXT_PLAIN);
+		response.setContentType(AthensContentType.TEXT_PLAIN);
 		response.setContents(ChannelBuffers.copiedBuffer("Hello World",
 				CharsetUtil.UTF_8));
 	}
