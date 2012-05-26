@@ -18,7 +18,6 @@ package net.rothlee.athens.olympus;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import net.rothlee.athens.analyzer.handler.AnalyzeTransferHandler;
 import net.rothlee.athens.handler.codec.http.AthensHttpHandler;
 import net.rothlee.athens.handler.codec.http.AthensHttpProcessor;
 import net.rothlee.athens.handler.service.simple.SimpleServiceDiscovery;
