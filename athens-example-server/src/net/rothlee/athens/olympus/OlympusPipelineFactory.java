@@ -18,6 +18,7 @@ package net.rothlee.athens.olympus;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import net.rothlee.athens.analyzer.handler.AnalyzeBlockHandler;
 import net.rothlee.athens.analyzer.handler.AnalyzeTransferHandler;
 import net.rothlee.athens.handler.codec.http.AthensHttpHandler;
 import net.rothlee.athens.handler.codec.http.AthensHttpProcessor;
@@ -60,6 +61,7 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 				new ExecutionHandler(executor),
 				new AthensHttpProcessor(),
 				new AnalyzeTransferHandler(),
+				new AnalyzeBlockHandler(),
 				new SimpleServiceDiscovery(services),
 				new SimpleServiceInvoker());
 	}
