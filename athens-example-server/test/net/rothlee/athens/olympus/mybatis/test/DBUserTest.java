@@ -2,10 +2,11 @@ package net.rothlee.athens.olympus.mybatis.test;
 
 import java.io.IOException;
 
-import net.rothlee.athens.olympus.data.User;
-import net.rothlee.athens.olympus.db.OlympusMapper;
 
 import org.apache.ibatis.session.SqlSession;
+
+import com.eincs.athens.olympus.data.User;
+import com.eincs.athens.olympus.db.OlympusMapper;
 
 public class DBUserTest {
 

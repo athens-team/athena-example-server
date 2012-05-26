@@ -1,6 +1,6 @@
 package net.rothlee.athens.olympus.test;
 
-import net.rothlee.athens.olympus.GmailMailSender;
+import com.eincs.athens.olympus.GmailMailSender;
 
 public class GmailSenderTest {
 

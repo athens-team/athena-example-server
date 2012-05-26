@@ -5,10 +5,11 @@ import java.util.UUID;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.util.CharsetUtil;
 
-import net.rothlee.athens.olympus.Tokens;
-import net.rothlee.athens.utils.token.JSONToken;
-import net.rothlee.athens.utils.token.JSONTokenFactory;
-import net.rothlee.athens.utils.token.TokenException;
+import com.eincs.athens.olympus.Tokens;
+import com.eincs.athens.utils.token.JSONToken;
+import com.eincs.athens.utils.token.JSONTokenFactory;
+import com.eincs.athens.utils.token.TokenException;
+
 
 public class TokenTest {
 
