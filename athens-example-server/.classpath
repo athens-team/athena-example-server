@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry kind="lib" path="libs/mail.jar"/>
 	<classpathentry kind="lib" path="libs/mailapi.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/athens-analyzer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
