@@ -21,9 +21,9 @@ import java.util.Arrays;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.eincs.athens.utils.token.JSONToken;
-import com.eincs.athens.utils.token.JSONTokenFactory;
-import com.eincs.athens.utils.token.TokenException;
+import com.eincs.pantheon.utils.token.JSONToken;
+import com.eincs.pantheon.utils.token.JSONTokenFactory;
+import com.eincs.pantheon.utils.token.TokenException;
 
 /**
  * @author roth2520@gmail.com

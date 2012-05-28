@@ -6,9 +6,9 @@ import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.util.CharsetUtil;
 
 import com.eincs.athens.olympus.Tokens;
-import com.eincs.athens.utils.token.JSONToken;
-import com.eincs.athens.utils.token.JSONTokenFactory;
-import com.eincs.athens.utils.token.TokenException;
+import com.eincs.pantheon.utils.token.JSONToken;
+import com.eincs.pantheon.utils.token.JSONTokenFactory;
+import com.eincs.pantheon.utils.token.TokenException;
 
 
 public class TokenTest {
