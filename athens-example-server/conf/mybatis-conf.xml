@@ -26,11 +26,11 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="User" type="net.rothlee.athens.olympus.data.User" />
-		<typeAlias alias="Session" type="net.rothlee.athens.olympus.data.Session" />
-		<typeAlias alias="Post" type="net.rothlee.athens.olympus.data.Post" />
-		<typeAlias alias="Range" type="net.rothlee.athens.olympus.data.Range" />
-		<typeAlias alias="TimestampTypeHandler" type="net.rothlee.athens.olympus.db.TimestampTypeHandler"/>
+		<typeAlias alias="User" type="com.eincs.athens.olympus.data.User" />
+		<typeAlias alias="Session" type="com.eincs.athens.olympus.data.Session" />
+		<typeAlias alias="Post" type="com.eincs.athens.olympus.data.Post" />
+		<typeAlias alias="Range" type="com.eincs.athens.olympus.data.Range" />
+		<typeAlias alias="TimestampTypeHandler" type="com.eincs.athens.olympus.db.TimestampTypeHandler"/>
 	</typeAliases>
 
 	<environments default="development">

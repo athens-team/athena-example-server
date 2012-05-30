@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  * under the License.
  */ 
  -->
-<mapper namespace="net.rothlee.athens.olympus.db.OlympusMapper">
+<mapper namespace="com.eincs.athens.olympus.db.OlympusMapper">
 
 	<!-- result maps -->
 	<resultMap id="userResult" type="User">
