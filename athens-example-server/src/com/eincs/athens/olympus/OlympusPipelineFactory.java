@@ -29,6 +29,7 @@ import org.jboss.netty.handler.execution.ExecutionHandler;
 
 import com.eincs.athens.analyzer.handler.AnalyzeBlockHandler;
 import com.eincs.athens.analyzer.handler.AnalyzeTransferHandler;
+import com.eincs.pantheon.handler.DefaultExceptionHandler;
 import com.eincs.pantheon.handler.codec.http.AthensHttpHandler;
 import com.eincs.pantheon.handler.codec.http.AthensHttpProcessor;
 import com.eincs.pantheon.handler.service.simple.SimpleServiceDiscovery;
@@ -64,6 +65,7 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 				new AnalyzeTransferHandler(),
 				new AnalyzeBlockHandler(),
 				new SimpleServiceDiscovery(services),
-				new SimpleServiceInvoker());
+				new SimpleServiceInvoker(),
+				new DefaultExceptionHandler());
 	}
 }
