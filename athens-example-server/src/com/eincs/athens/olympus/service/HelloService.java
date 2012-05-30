@@ -21,9 +21,9 @@ import org.jboss.netty.util.CharsetUtil;
 
 import com.eincs.pantheon.handler.service.simple.Bind;
 import com.eincs.pantheon.handler.service.simple.SimpleService;
-import com.eincs.pantheon.message.AthensContentType;
-import com.eincs.pantheon.message.AthensRequest;
-import com.eincs.pantheon.message.AthensResponse;
+import com.eincs.pantheon.message.PanteonContentType;
+import com.eincs.pantheon.message.PanteonRequest;
+import com.eincs.pantheon.message.PanteonResponse;
 
 /**
  * @author roth2520@gmail.com
@@ -32,10 +32,10 @@ import com.eincs.pantheon.message.AthensResponse;
 public class HelloService implements SimpleService {
 
 	@Override
-	public void doServe(AthensRequest request, AthensResponse response)
+	public void doServe(PanteonRequest request, PanteonResponse response)
 			throws Exception {
 
-		response.setContentType(AthensContentType.TEXT_PLAIN);
+		response.setContentType(PanteonContentType.TEXT_PLAIN);
 		response.setContents(ChannelBuffers.copiedBuffer("Hello World",
 				CharsetUtil.UTF_8));
 	}

@@ -31,9 +31,9 @@ import com.eincs.athens.olympus.data.User;
 import com.eincs.athens.olympus.db.OlympusMapper;
 import com.eincs.pantheon.handler.service.simple.Bind;
 import com.eincs.pantheon.handler.service.simple.SimpleService;
-import com.eincs.pantheon.message.AthensContentType;
-import com.eincs.pantheon.message.AthensRequest;
-import com.eincs.pantheon.message.AthensResponse;
+import com.eincs.pantheon.message.PanteonContentType;
+import com.eincs.pantheon.message.PanteonRequest;
+import com.eincs.pantheon.message.PanteonResponse;
 import com.eincs.pantheon.utils.token.JSONToken;
 import com.eincs.pantheon.utils.token.JSONTokenFactory;
 
@@ -44,7 +44,7 @@ import com.eincs.pantheon.utils.token.JSONTokenFactory;
 public class PostWriteService implements SimpleService {
 
 	@Override
-	public void doServe(AthensRequest request, AthensResponse response)
+	public void doServe(PanteonRequest request, PanteonResponse response)
 			throws Exception {
 		final String content = request.getParams().getParam("content",
 				String.class);
@@ -63,7 +63,7 @@ public class PostWriteService implements SimpleService {
 			if (!Tokens.verifyToken(accessToken)) {
 				String responseString = DataUtils
 						.toResponseStringError("permission denied. invalid token.");
-				response.setContentType(AthensContentType.TEXT_PLAIN);
+				response.setContentType(PanteonContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -77,7 +77,7 @@ public class PostWriteService implements SimpleService {
 			if (user == null) {
 				String responseString = DataUtils
 						.toResponseStringError("permission denied. no such user.");
-				response.setContentType(AthensContentType.TEXT_PLAIN);
+				response.setContentType(PanteonContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -87,7 +87,7 @@ public class PostWriteService implements SimpleService {
 			if (userSession == null) {
 				String responseString = DataUtils
 						.toResponseStringError("permission denied. no such session.");
-				response.setContentType(AthensContentType.TEXT_PLAIN);
+				response.setContentType(PanteonContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -98,7 +98,7 @@ public class PostWriteService implements SimpleService {
 
 			final String responseString = DataUtils
 					.toResponseString(result > 0);
-			response.setContentType(AthensContentType.TEXT_PLAIN);
+			response.setContentType(PanteonContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 

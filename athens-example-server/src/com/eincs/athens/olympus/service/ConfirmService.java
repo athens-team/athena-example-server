@@ -29,9 +29,9 @@ import com.eincs.athens.olympus.data.User;
 import com.eincs.athens.olympus.db.OlympusMapper;
 import com.eincs.pantheon.handler.service.simple.Bind;
 import com.eincs.pantheon.handler.service.simple.SimpleService;
-import com.eincs.pantheon.message.AthensContentType;
-import com.eincs.pantheon.message.AthensRequest;
-import com.eincs.pantheon.message.AthensResponse;
+import com.eincs.pantheon.message.PanteonContentType;
+import com.eincs.pantheon.message.PanteonRequest;
+import com.eincs.pantheon.message.PanteonResponse;
 import com.eincs.pantheon.utils.token.JSONToken;
 import com.eincs.pantheon.utils.token.JSONTokenFactory;
 
@@ -42,7 +42,7 @@ import com.eincs.pantheon.utils.token.JSONTokenFactory;
 public class ConfirmService implements SimpleService {
 
 	@Override
-	public void doServe(AthensRequest request, AthensResponse response)
+	public void doServe(PanteonRequest request, PanteonResponse response)
 			throws Exception {
 
 		final String tokenString = request.getParams().getParam("token",
@@ -55,7 +55,7 @@ public class ConfirmService implements SimpleService {
 			if (tokenString == null) {
 				String responseString = DataUtils
 						.toResponseStringError("invalid access");
-				response.setContentType(AthensContentType.TEXT_PLAIN);
+				response.setContentType(PanteonContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -66,7 +66,7 @@ public class ConfirmService implements SimpleService {
 			if (!Tokens.verifyToken(registrationToken)) {
 				String responseString = DataUtils
 						.toResponseStringError("invalid token");
-				response.setContentType(AthensContentType.TEXT_PLAIN);
+				response.setContentType(PanteonContentType.TEXT_PLAIN);
 				response.setContents(ChannelBuffers.copiedBuffer(
 						responseString, CharsetUtil.UTF_8));
 				return;
@@ -92,7 +92,7 @@ public class ConfirmService implements SimpleService {
 			session.commit();
 			
 			String responseString = DataUtils.toResponseString(true);
-			response.setContentType(AthensContentType.TEXT_PLAIN);
+			response.setContentType(PanteonContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 			return;

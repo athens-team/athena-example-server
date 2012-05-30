@@ -24,9 +24,9 @@ import com.eincs.athens.olympus.data.Post;
 import com.eincs.athens.olympus.db.OlympusMapper;
 import com.eincs.pantheon.handler.service.simple.Bind;
 import com.eincs.pantheon.handler.service.simple.SimpleService;
-import com.eincs.pantheon.message.AthensContentType;
-import com.eincs.pantheon.message.AthensRequest;
-import com.eincs.pantheon.message.AthensResponse;
+import com.eincs.pantheon.message.PanteonContentType;
+import com.eincs.pantheon.message.PanteonRequest;
+import com.eincs.pantheon.message.PanteonResponse;
 
 import net.rothlee.athens.olympus.mybatis.test.DBManager;
 
@@ -37,7 +37,7 @@ import net.rothlee.athens.olympus.mybatis.test.DBManager;
 public class PostDeleteService implements SimpleService {
 
 	@Override
-	public void doServe(AthensRequest request, AthensResponse response)
+	public void doServe(PanteonRequest request, PanteonResponse response)
 			throws Exception {
 		final Integer postId = request.getParams()
 				.getParam("id", Integer.class);
@@ -51,7 +51,7 @@ public class PostDeleteService implements SimpleService {
 
 			final String responseString = DataUtils
 					.toResponseString(result > 0);
-			response.setContentType(AthensContentType.TEXT_PLAIN);
+			response.setContentType(PanteonContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 

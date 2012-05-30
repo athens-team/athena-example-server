@@ -30,9 +30,9 @@ import com.eincs.athens.olympus.Tokens;
 import com.eincs.athens.olympus.data.DataUtils;
 import com.eincs.pantheon.handler.service.simple.Bind;
 import com.eincs.pantheon.handler.service.simple.SimpleService;
-import com.eincs.pantheon.message.AthensContentType;
-import com.eincs.pantheon.message.AthensRequest;
-import com.eincs.pantheon.message.AthensResponse;
+import com.eincs.pantheon.message.PanteonContentType;
+import com.eincs.pantheon.message.PanteonRequest;
+import com.eincs.pantheon.message.PanteonResponse;
 import com.eincs.pantheon.utils.token.JSONToken;
 import com.eincs.pantheon.utils.token.JSONTokenFactory;
 
@@ -43,7 +43,7 @@ import com.eincs.pantheon.utils.token.JSONTokenFactory;
 public class AccessTokenService implements SimpleService {
 
 	@Override
-	public void doServe(AthensRequest request, AthensResponse response)
+	public void doServe(PanteonRequest request, PanteonResponse response)
 			throws Exception {
 
 		final String email = request.getParams()
@@ -76,7 +76,7 @@ public class AccessTokenService implements SimpleService {
 			String responseString = DataUtils.toResponseString(ChannelBuffers
 					.copiedBuffer(tokenFactory.toBytes(accessToken)).toString(
 							CharsetUtil.UTF_8));
-			response.setContentType(AthensContentType.TEXT_PLAIN);
+			response.setContentType(PanteonContentType.TEXT_PLAIN);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 			return;
