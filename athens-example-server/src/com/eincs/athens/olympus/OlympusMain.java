@@ -18,10 +18,14 @@ package com.eincs.athens.olympus;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
-
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.eincs.athens.analyzer.core.TransferClient.AnalyzeReportHandler;
+import com.eincs.athens.analyzer.core.TransferClients;
+import com.eincs.athens.analyzer.message.AnalyzeReport;
 import com.eincs.athens.olympus.service.AccessTokenService;
 import com.eincs.athens.olympus.service.ConfirmService;
 import com.eincs.athens.olympus.service.HelloService;
@@ -35,7 +39,16 @@ import com.eincs.pantheon.handler.service.simple.SimpleServices;
  */
 public class OlympusMain {
 
+	private static final Logger logger = LoggerFactory
+			.getLogger(OlympusMain.class);
 	public static void main(String[] args) {
+		
+		TransferClients.addReportListener(new AnalyzeReportHandler() {
+			@Override
+			public void handlerReport(AnalyzeReport report) {
+				logger.info("recv {}", report);	
+			}
+		});
 		
 		SimpleServices services = new SimpleServices();
 		services.putByAnnotation(new TimelineService());
