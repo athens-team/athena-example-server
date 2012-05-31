@@ -23,9 +23,9 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.eincs.athens.analyzer.core.TransferClient.AnalyzeReportHandler;
-import com.eincs.athens.analyzer.core.TransferClients;
-import com.eincs.athens.analyzer.message.AnalyzeReport;
+import com.eincs.athens.core.TransferClients;
+import com.eincs.athens.core.TransferClient.AnalyzeReportHandler;
+import com.eincs.athens.message.AthensReport;
 import com.eincs.athens.olympus.service.AccessTokenService;
 import com.eincs.athens.olympus.service.ConfirmService;
 import com.eincs.athens.olympus.service.HelloService;
@@ -43,9 +43,10 @@ public class OlympusMain {
 			.getLogger(OlympusMain.class);
 	public static void main(String[] args) {
 		
+		// report handler
 		TransferClients.addReportListener(new AnalyzeReportHandler() {
 			@Override
-			public void handlerReport(AnalyzeReport report) {
+			public void handlerReport(AthensReport report) {
 				logger.info("recv {}", report);	
 			}
 		});

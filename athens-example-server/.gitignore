@@ -1,6 +1,7 @@
 # Eclipse
 bin/
 onpage/
+database/
 
 # svn
 .svn

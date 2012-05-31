@@ -27,8 +27,8 @@ import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
 import org.jboss.netty.handler.execution.ExecutionHandler;
 
-import com.eincs.athens.analyzer.handler.AnalyzeBlockHandler;
-import com.eincs.athens.analyzer.handler.AnalyzeTransferHandler;
+import com.eincs.athens.handler.AthensBlockHandler;
+import com.eincs.athens.handler.AthensTransferHandler;
 import com.eincs.pantheon.handler.DefaultExceptionHandler;
 import com.eincs.pantheon.handler.codec.http.PanteonHttpHandler;
 import com.eincs.pantheon.handler.codec.http.PanteonHttpProcessor;
@@ -62,8 +62,8 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 				new PanteonHttpHandler(),
 				new ExecutionHandler(executor),
 				new PanteonHttpProcessor(),
-				new AnalyzeTransferHandler(),
-				new AnalyzeBlockHandler(),
+				new AthensTransferHandler(),
+				new AthensBlockHandler(),
 				new SimpleServiceDiscovery(services),
 				new SimpleServiceInvoker(),
 				new DefaultExceptionHandler());
