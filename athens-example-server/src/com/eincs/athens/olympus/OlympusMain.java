@@ -15,6 +15,7 @@
  */
 package com.eincs.athens.olympus;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
@@ -23,8 +24,12 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.eincs.athens.core.TransferClients;
 import com.eincs.athens.core.TransferClient.AnalyzeReportHandler;
+import com.eincs.athens.core.TransferClients;
+import com.eincs.athens.db.BlockDB;
+import com.eincs.athens.db.leveldb.AthensDBFactory;
+import com.eincs.athens.db.leveldb.LevelDBBlockDB;
+import com.eincs.athens.handler.AthensBlockFilter;
 import com.eincs.athens.message.AthensReport;
 import com.eincs.athens.olympus.service.AccessTokenService;
 import com.eincs.athens.olympus.service.ConfirmService;
@@ -41,13 +46,26 @@ public class OlympusMain {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(OlympusMain.class);
-	public static void main(String[] args) {
+	
+	private static final String DB_NAME_BLOCK= "./database/block.db";
+	
+	public static void main(String[] args) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException, IOException {
+
+		final AthensDBFactory factory = new AthensDBFactory();
+		final BlockDB blockDB = new LevelDBBlockDB(factory.open(DB_NAME_BLOCK));
+		final AthensBlockFilter blockFilter = new AthensBlockFilter(blockDB);
 		
 		// report handler
 		TransferClients.addReportListener(new AnalyzeReportHandler() {
 			@Override
-			public void handlerReport(AthensReport report) {
-				logger.info("recv {}", report);	
+			public void handleReport(AthensReport report) {
+				logger.info("recv {}", report);
+				try {
+					blockFilter.apply(report);
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+				}
 			}
 		});
 		
@@ -66,7 +84,8 @@ public class OlympusMain {
                         Executors.newCachedThreadPool()));
 
         // Set up the event pipeline factory.
-        bootstrap.setPipelineFactory(new OlympusPipelineFactory(services));
+		bootstrap.setPipelineFactory(new OlympusPipelineFactory(services,
+				blockFilter));
 
         // Bind and start to accept incoming connections.
         bootstrap.bind(new InetSocketAddress(8080));

@@ -18,7 +18,6 @@ package com.eincs.athens.olympus;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
@@ -27,6 +26,7 @@ import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
 import org.jboss.netty.handler.execution.ExecutionHandler;
 
+import com.eincs.athens.handler.AthensBlockFilter;
 import com.eincs.athens.handler.AthensBlockHandler;
 import com.eincs.athens.handler.AthensTransferHandler;
 import com.eincs.pantheon.handler.DefaultExceptionHandler;
@@ -46,11 +46,14 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 
 	private final ExecutorService executor;
 	private final SimpleServices services;
+	private final AthensBlockFilter blockFilter;
 	
-	public OlympusPipelineFactory(SimpleServices services) {
+	public OlympusPipelineFactory(SimpleServices services,
+			AthensBlockFilter blockFilter) {
 		this.executor = Executors
 				.newFixedThreadPool(DEFAULT_WORKER_THREAD_COUNT);
 		this.services = services;
+		this.blockFilter = blockFilter;
 	}
 
 	@Override
@@ -62,8 +65,8 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 				new PanteonHttpHandler(),
 				new ExecutionHandler(executor),
 				new PanteonHttpProcessor(),
+				new AthensBlockHandler(blockFilter),
 				new AthensTransferHandler(),
-				new AthensBlockHandler(),
 				new SimpleServiceDiscovery(services),
 				new SimpleServiceInvoker(),
 				new DefaultExceptionHandler());
