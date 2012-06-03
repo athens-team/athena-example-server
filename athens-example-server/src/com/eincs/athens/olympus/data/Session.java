@@ -16,6 +16,8 @@
 package com.eincs.athens.olympus.data;
 
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +26,9 @@ import com.eincs.athens.olympus.data.DataUtils.JConvertable;
 /**
  * @author roth2520@gmail.com
  */
-public class Session implements JConvertable {
+public class Session implements JConvertable, Serializable {
+
+	private static final long serialVersionUID = 2143903003036522492L;
 
 	public static Session create(String uuid) {
 		Session result = new Session();

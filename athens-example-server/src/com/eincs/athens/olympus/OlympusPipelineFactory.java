@@ -42,7 +42,7 @@ import com.eincs.pantheon.handler.service.simple.SimpleServices;
 public class OlympusPipelineFactory implements ChannelPipelineFactory {
 
 	private final int DEFAULT_WORKER_THREAD_COUNT = Runtime.getRuntime()
-			.availableProcessors() * 64;
+			.availableProcessors() * 128;
 
 	private final ExecutorService executor;
 	private final SimpleServices services;
@@ -65,8 +65,8 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 				new PanteonHttpHandler(),
 				new ExecutionHandler(executor),
 				new PanteonHttpProcessor(),
-//				new AthensBlockHandler(blockFilter),
-//				new AthensTransferHandler(),
+				new AthensBlockHandler(blockFilter),
+				new AthensTransferHandler(),
 				new SimpleServiceDiscovery(services),
 				new SimpleServiceInvoker(),
 				new DefaultExceptionHandler());

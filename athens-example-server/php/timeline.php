@@ -1,6 +1,9 @@
 <?php
-	/* connect and select database */
+	header("Cache-Control:no-cache");
+	header("Expires:0" );
+	header("Pragma:no-cache");
 
+	/* connect and select database */
 	$conn = mysql_connect('127.0.0.1:3306/olympus?characterEncoding=UTF8', 'olympus', 'olympus');
 	if (!$conn) {
 		die('Could not connect:'.mysql_error());

@@ -16,6 +16,8 @@
 package com.eincs.athens.olympus.data;
 
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +26,9 @@ import com.eincs.athens.olympus.data.DataUtils.JConvertable;
 /**
  * @author roth2520@gmail.com
  */
-public class Post implements JConvertable {
+public class Post implements JConvertable, Serializable {
+
+	private static final long serialVersionUID = -6795933301646666997L;
 
 	public static Post create(Integer postId) {
 		Post result = new Post();

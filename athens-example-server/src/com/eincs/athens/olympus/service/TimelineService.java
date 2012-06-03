@@ -22,6 +22,8 @@ import net.rothlee.athens.olympus.mybatis.test.DBManager;
 import org.apache.ibatis.session.SqlSession;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.eincs.athens.olympus.data.DataUtils;
 import com.eincs.athens.olympus.data.Post;
@@ -39,6 +41,9 @@ import com.eincs.pantheon.message.PanteonResponse;
  */
 @Bind(path = "/timeline", method = { "GET" })
 public class TimelineService implements SimpleService {
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(TimelineService.class);
 
 	@Override
 	public void doServe(PanteonRequest request, PanteonResponse response)
@@ -59,10 +64,13 @@ public class TimelineService implements SimpleService {
 			final List<Post> result = mapper.getPosts(range);
 			for(Post post : result) {
 				Integer userId = post.getUserId();
-				post.setUser(mapper.getUser(User.createById(userId)));
+				if (post.getUser() == null) {
+					logger.info("new post!");
+					post.setUser(mapper.getUser(User.createById(userId)));
+				}
 			}
 			final String responseString = DataUtils.toResponseString(result);
-			response.setContentType(PanteonContentType.TEXT_PLAIN);
+			response.setContentType(PanteonContentType.TEXT_HTML);
 			response.setContents(ChannelBuffers.copiedBuffer(responseString,
 					CharsetUtil.UTF_8));
 

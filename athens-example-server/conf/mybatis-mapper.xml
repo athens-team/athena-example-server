@@ -21,6 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  -->
 <mapper namespace="com.eincs.athens.olympus.db.OlympusMapper">
 
+	<cache />
+	
 	<!-- result maps -->
 	<resultMap id="userResult" type="User">
 		<id column="id" property="id" />
