@@ -1,3 +1,3 @@
-[submodule "libs/athens"]
-	path = libs/athens
-	url = git+ssh://eincs@git.eincs.net/repos/is/athens
+[submodule "libs/athena"]
+	path = libs/athena
+	url = git://github.com/athens-team/athena.git
