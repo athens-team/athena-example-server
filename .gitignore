@@ -4,3 +4,12 @@
 *.DS_Store
 *.swp
 *.out
+*.class
+
+database
+logs
+
+# Package Files #
+*.jar
+*.war
+*.ear
