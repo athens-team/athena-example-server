@@ -17,7 +17,6 @@ package com.eincs.athens.olympus;
 
 import java.util.Arrays;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

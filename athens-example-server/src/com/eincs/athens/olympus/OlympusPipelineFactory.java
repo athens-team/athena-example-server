@@ -29,6 +29,7 @@ import org.jboss.netty.handler.execution.ExecutionHandler;
 import com.eincs.athens.handler.AthensBlockFilter;
 import com.eincs.athens.handler.AthensBlockHandler;
 import com.eincs.athens.handler.AthensTransferHandler;
+import com.eincs.athens.olympus.conf.OlympusConf;
 import com.eincs.pantheon.handler.DefaultExceptionHandler;
 import com.eincs.pantheon.handler.codec.http.PanteonHttpHandler;
 import com.eincs.pantheon.handler.codec.http.PanteonHttpProcessor;
@@ -47,28 +48,41 @@ public class OlympusPipelineFactory implements ChannelPipelineFactory {
 	private final ExecutorService executor;
 	private final SimpleServices services;
 	private final AthensBlockFilter blockFilter;
+	private final OlympusConf conf;
 	
 	public OlympusPipelineFactory(SimpleServices services,
-			AthensBlockFilter blockFilter) {
+			AthensBlockFilter blockFilter, OlympusConf conf) {
 		this.executor = Executors
 				.newFixedThreadPool(DEFAULT_WORKER_THREAD_COUNT);
 		this.services = services;
 		this.blockFilter = blockFilter;
+		this.conf = conf;
 	}
 
 	@Override
 	public ChannelPipeline getPipeline() throws Exception {
-
-		return Channels.pipeline(new HttpRequestDecoder(),
-				new HttpResponseEncoder(),
-				new HttpContentCompressor(),
-				new PanteonHttpHandler(),
-				new ExecutionHandler(executor),
-				new PanteonHttpProcessor(),
-				new AthensBlockHandler(blockFilter),
-				new AthensTransferHandler(),
-				new SimpleServiceDiscovery(services),
-				new SimpleServiceInvoker(),
-				new DefaultExceptionHandler());
+		if(conf.isUseAnalyzer()) {
+			return Channels.pipeline(new HttpRequestDecoder(),
+					new HttpResponseEncoder(),
+					new HttpContentCompressor(),
+					new PanteonHttpHandler(),
+					new ExecutionHandler(executor),
+					new PanteonHttpProcessor(),
+					new AthensBlockHandler(blockFilter),
+					new AthensTransferHandler(),
+					new SimpleServiceDiscovery(services),
+					new SimpleServiceInvoker(),
+					new DefaultExceptionHandler());
+		} else {
+			return Channels.pipeline(new HttpRequestDecoder(),
+					new HttpResponseEncoder(),
+					new HttpContentCompressor(),
+					new PanteonHttpHandler(),
+					new ExecutionHandler(executor),
+					new PanteonHttpProcessor(),
+					new SimpleServiceDiscovery(services),
+					new SimpleServiceInvoker(),
+					new DefaultExceptionHandler());
+		}
 	}
 }

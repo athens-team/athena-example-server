@@ -31,6 +31,7 @@ import com.eincs.athens.db.leveldb.AthensDBFactory;
 import com.eincs.athens.db.leveldb.LevelDBBlockDB;
 import com.eincs.athens.handler.AthensBlockFilter;
 import com.eincs.athens.message.AthensReport;
+import com.eincs.athens.olympus.conf.OlympusConf;
 import com.eincs.athens.olympus.service.AccessTokenService;
 import com.eincs.athens.olympus.service.ConfirmService;
 import com.eincs.athens.olympus.service.HelloService;
@@ -55,6 +56,7 @@ public class OlympusMain {
 		final AthensDBFactory factory = new AthensDBFactory();
 		final BlockDB blockDB = new LevelDBBlockDB(factory.open(DB_NAME_BLOCK));
 		final AthensBlockFilter blockFilter = new AthensBlockFilter(blockDB);
+		final OlympusConf conf = OlympusConf.INSTANCE;
 		
 		// report handler
 		TransferClients.addReportListener(new AnalyzeReportHandler() {
@@ -85,9 +87,9 @@ public class OlympusMain {
 
         // Set up the event pipeline factory.
 		bootstrap.setPipelineFactory(new OlympusPipelineFactory(services,
-				blockFilter));
+				blockFilter, conf));
 
         // Bind and start to accept incoming connections.
-        bootstrap.bind(new InetSocketAddress(8080));
+        bootstrap.bind(new InetSocketAddress(conf.getListenPort()));
 	}
 }
